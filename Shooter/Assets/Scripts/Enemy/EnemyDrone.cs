@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class EnemyDrone : Enemy, IBaseStats
+public class EnemyDrone : EnemyController, IBaseStats
 {
     [SerializeField]
     public float Health { get; set; }
