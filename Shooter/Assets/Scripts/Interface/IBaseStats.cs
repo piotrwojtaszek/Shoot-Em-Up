@@ -4,7 +4,8 @@ using UnityEngine;
 
 public interface IBaseStats
 {
-    int Health { get; set; }
+    float MaxHealth { get; }
+    float CurrentHealth { get; set; }
     void TakeDamage(float amount);
     void Die();
 }
