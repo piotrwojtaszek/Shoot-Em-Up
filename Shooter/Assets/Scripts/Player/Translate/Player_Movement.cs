@@ -5,6 +5,12 @@ using UnityEngine;
 public class Player_Movement : MonoBehaviour
 {
     public CharacterController controller;
+
+    public float sensitivity = 1000f;
+    public Transform playerCam;
+    public Transform orientation;
+    public float desiredX = 0f;
+    public float xRotation = 0f;
     public float speed = 12f;
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
@@ -15,7 +21,6 @@ public class Player_Movement : MonoBehaviour
     [HideInInspector]
     public bool isWalled = false;
     public Transform groundCheck;
-    public Transform[] wallCheck;
     public LayerMask groundMask;
     public LayerMask wallMask;
     bool leftWallCheck = true;
@@ -26,6 +31,7 @@ public class Player_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Look();
         isGrounded = GroundCheck();
         if (!isGrounded)
             isWalled = WallCheck();
@@ -37,7 +43,7 @@ public class Player_Movement : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        velocity = transform.right * x * speed + transform.forward * z * speed + transform.up * velocity.y;
+        velocity = orientation.transform.right * x * speed + orientation.transform.forward * z * speed + orientation.transform.up * velocity.y;
 
 
         if (Input.GetButtonDown("Jump") && isGrounded)
@@ -50,10 +56,10 @@ public class Player_Movement : MonoBehaviour
         else if (isWalled && !isGrounded)
         {
             velocity.x = wallNormal.z * 2f;
-            if (velocity.y >= 2f)
+            if (velocity.y >= 3f)
                 velocity.y += gravity / 2f * Time.deltaTime;
             else if (velocity.y <= -1.5f)
-                velocity.y += gravity / 8f * Time.deltaTime;
+                velocity.y = 0f;
             else
                 velocity.y += gravity / 2f * Time.deltaTime;
         }
@@ -99,7 +105,7 @@ public class Player_Movement : MonoBehaviour
 
     bool WallCheck()
     {
-        for (float z = -0.5f; z < 1f; z += 0.5f)
+        for (float z = -0.5f; z < .75f; z += 0.25f)
         {
             for (float i = -0.5f; i < 1; i++)
             {
@@ -108,15 +114,14 @@ public class Player_Movement : MonoBehaviour
                     if (leftWallCheck && j == -1 || rightWallCheck && j == 1)
                     {
                         RaycastHit hit;
-                        Debug.DrawRay(transform.position + transform.forward * z + transform.up * i, transform.right * j + transform.forward * z, Color.red);
-                        if (Physics.Raycast(transform.position + transform.forward * z + transform.up * i, transform.right * j+transform.forward*z/2f, out hit, .8f, wallMask) && !GroundCheck())
+                        Debug.DrawRay(orientation.transform.position + orientation.transform.forward * z + orientation.transform.up * i, orientation.transform.right * j + orientation.transform.forward * z * 2f, Color.red);
+                        if (Physics.Raycast(orientation.transform.position + orientation.transform.forward * z + orientation.transform.up * i, orientation.transform.right * j + orientation.transform.forward * z * 2f, out hit, .8f, wallMask) && !GroundCheck())
                         {
                             wallSide = j;
                             wallNormal = hit.normal;
                             return true;
                         }
                     }
-
                 }
             }
         }
@@ -134,5 +139,23 @@ public class Player_Movement : MonoBehaviour
 
         leftWallCheck = true;
         rightWallCheck = true;
+    }
+
+    private void Look()
+    {
+        float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.fixedDeltaTime;
+        float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.fixedDeltaTime;
+
+        //Find current look rotation
+        Vector3 rot = playerCam.transform.localRotation.eulerAngles;
+        desiredX = rot.y + mouseX;
+
+        //Rotate, and also make sure we dont over- or under-rotate.
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+        //Perform the rotations
+        playerCam.transform.localRotation = Quaternion.Euler(xRotation, desiredX, 0);
+        orientation.transform.localRotation = Quaternion.Euler(0, desiredX, 0);
     }
 }
