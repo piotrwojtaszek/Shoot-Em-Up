@@ -6,11 +6,12 @@ public class CameraRotate : MonoBehaviour
 {
     public float mouseSensitivity = 100f;
     public Transform playerBody;
-
+    Player_Movement player;
     float xRotation = 0f;
     // Start is called before the first frame update
     void Start()
     {
+        player = GetComponentInParent<Player_Movement>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -22,8 +23,22 @@ public class CameraRotate : MonoBehaviour
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90);
-        playerBody.Rotate(Vector3.up * mouseX);
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+
+        if (player.isWalled)
+        {
+            Vector3 currentRotation = transform.localRotation.eulerAngles;
+            transform.localRotation = Quaternion.Euler(xRotation, currentRotation.y + mouseX, 0f);
+            Debug.Log("JAZDA");
+        }
+        else
+        {
+            Debug.Log("NOPE");
+            mouseX += transform.localRotation.eulerAngles.y;
+            transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
+            playerBody.Rotate(Vector3.up * mouseX);
+
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        }
 
     }
 }
