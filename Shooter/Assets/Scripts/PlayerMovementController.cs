@@ -1,7 +1,12 @@
 ﻿using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovementController : MonoBehaviour
+
+
 {
+
+    public static PlayerMovementController instance;
+
     [SerializeField]
     private float m_speed = 1f;
     [SerializeField]
@@ -11,9 +16,12 @@ public class PlayerMovementController : MonoBehaviour
     private float x, z;
     private bool jumping;
 
+    
+
     // Start is called before the first frame update
     void Awake()
     {
+        instance = this;
         m_rb = GetComponent<Rigidbody>();
     }
     private void Update()
