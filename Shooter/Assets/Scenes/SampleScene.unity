@@ -120,7 +120,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 50fc942bd5b9b6d449ca4a17a1b13128, type: 2}
 --- !u!1001 &99977280
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -137,6 +137,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cube
+      objectReference: {fileID: 0}
+    - target: {fileID: 4047994345602090415, guid: f179e64d1561bc44aa77dc1c2312010c,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4047994345602090418, guid: f179e64d1561bc44aa77dc1c2312010c,
         type: 3}
@@ -286,7 +291,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!65 &480266519
 BoxCollider:
@@ -537,6 +542,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cube (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4047994345602090415, guid: f179e64d1561bc44aa77dc1c2312010c,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4047994345602090418, guid: f179e64d1561bc44aa77dc1c2312010c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -600,12 +610,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1225655839}
   m_PrefabAsset: {fileID: 0}
---- !u!54 &1024206899 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 4047994345602090414, guid: f179e64d1561bc44aa77dc1c2312010c,
-    type: 3}
-  m_PrefabInstance: {fileID: 1225655839}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1024206904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -619,7 +623,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  theRB: {fileID: 1024206899}
+  theRB: {fileID: 0}
+  agent: {fileID: 1024206905}
+--- !u!195 &1024206905
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024206897}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1001 &1225655839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -650,17 +677,17 @@ PrefabInstance:
     - target: {fileID: 4047994345602090418, guid: f179e64d1561bc44aa77dc1c2312010c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.58
+      value: -12.08
       objectReference: {fileID: 0}
     - target: {fileID: 4047994345602090418, guid: f179e64d1561bc44aa77dc1c2312010c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.28
+      value: 2.14
       objectReference: {fileID: 0}
     - target: {fileID: 4047994345602090418, guid: f179e64d1561bc44aa77dc1c2312010c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.26
+      value: 8.01
       objectReference: {fileID: 0}
     - target: {fileID: 4047994345602090418, guid: f179e64d1561bc44aa77dc1c2312010c,
         type: 3}
@@ -702,7 +729,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4047994345602090414, guid: f179e64d1561bc44aa77dc1c2312010c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f179e64d1561bc44aa77dc1c2312010c, type: 3}
 --- !u!1 &1433406321
 GameObject:
@@ -721,7 +749,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!65 &1433406322
 BoxCollider:
@@ -814,7 +842,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!114 &1520286140
 MonoBehaviour:
@@ -913,6 +941,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cube (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4047994345602090415, guid: f179e64d1561bc44aa77dc1c2312010c,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4047994345602090418, guid: f179e64d1561bc44aa77dc1c2312010c,
         type: 3}
@@ -1066,6 +1099,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cube (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4047994345602090415, guid: f179e64d1561bc44aa77dc1c2312010c,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4047994345602090417, guid: f179e64d1561bc44aa77dc1c2312010c,
         type: 3}
@@ -1300,6 +1338,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cube (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4047994345602090415, guid: f179e64d1561bc44aa77dc1c2312010c,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4047994345602090418, guid: f179e64d1561bc44aa77dc1c2312010c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1374,7 +1417,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!64 &2128714476
 MeshCollider:
