@@ -29,6 +29,7 @@ public class Player_Movement : MonoBehaviour
     float wallCheckRange = 0.8f;
     Vector3 wallNormal;
     // Update is called once per frame
+    // pomysł na umijetnosc: klikamy zmienia sie kolorgrading i wtedy mozemy przyciagac sie do scian
     void Update()
     {
         Look();
