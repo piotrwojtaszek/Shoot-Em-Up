@@ -20,12 +20,6 @@ public class PlayerController : IBaseStats
         target = player.transform;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Die()
     {
         throw new System.NotImplementedException();

@@ -11,6 +11,7 @@ public class EnemyDrone : EnemyController, IBaseStats
         base.Init();
         Health = base.health;
     }
+
     public void Die()
     {
         Destroy(gameObject);
