@@ -19,17 +19,26 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 4500;
     [Tooltip("Jak wysoko skacze")]
     public float jumpSpeed = 400f;
-    public float maxSpeed = 20;
-    public bool grounded;
+    public float maxSpeed = 20f;
+    private bool grounded;
     [Tooltip("Jaką maskę uznajemy za ziemie")]
     public LayerMask whatIsGround;
     private float x, y;
     private bool jumping;
+    private bool sprinting;
     private bool walled = false;
     public LayerMask whatIsWall;
-    public float skinWidth = .2f;
+    public float skinWidth = .1f;
     public float leapSpeed = 100f;
-    private bool oldWalled = false;
+    private bool readyToJump = true;
+    private float jumpCooldown = .1f;
+    private float wallCooldown = .1f;
+    private bool readyToWalled = true;
+    private int wallId = -1;
+    public int maxJumps = 1;
+    private int jumpCount = 1;
+    //dodac stamine ktora sie zmiejsza wraz z uzywaniem sprintu
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -44,43 +53,57 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        Look();
+        MyInput();
+        Movement();
         CheckGround();
         WallCheck();
         WallGrab();
-        MyInput();
-        Look();
     }
 
-    private void FixedUpdate()
-    {
-        Movement();
-    }
     private void Movement()
     {
-        if (jumping && grounded)
+        if (jumping && readyToJump)
         {
-            rb.AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
-            grounded = false;
+            Jump();
         }
         if (SetMaxVelocity())
         {
             return;
         }
-        if (grounded)
-        {
-            rb.AddForce(orientation.transform.forward * y * moveSpeed * Time.deltaTime);
-            rb.AddForce(orientation.transform.right * x * moveSpeed * Time.deltaTime);
-        }
+        if (walled)
+            rb.velocity = Vector3.zero;
 
-
-
+        rb.AddForce(orientation.transform.forward * y * moveSpeed * Time.deltaTime);
+        rb.AddForce(orientation.transform.right * x * moveSpeed * Time.deltaTime);
     }
 
+    void Jump()
+    {
+        if (grounded && readyToJump || readyToJump && jumpCount > 0)
+        {
+            readyToJump = false;
+            float multiplier = jumpSpeed + 2f * jumpCount / maxJumps;
+            rb.AddForce(Vector3.up * multiplier);
+            Invoke(nameof(ResetJump), jumpCooldown);
+        }
+    }
+
+    private void ResetJump()
+    {
+        jumpCount--;
+        readyToJump = true;
+    }
+    private void ResetWalled()
+    {
+        readyToWalled = true;
+    }
     private void MyInput()
     {
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
         jumping = Input.GetButtonDown("Jump");
+        sprinting = Input.GetKey(KeyCode.LeftShift);
     }
 
     private void Look()
@@ -107,26 +130,28 @@ public class PlayerMovement : MonoBehaviour
         if (col.Length > 0)
         {
             grounded = true;
+            jumpCount = maxJumps;
+            ResetWallId();
         }
         else
         {
             grounded = false;
         }
-
     }
 
     private bool SetMaxVelocity()
     {
         float speed = Vector3.Magnitude(rb.velocity);  // test current object speed
+        float maxCurrentSpeed = sprinting ? maxSpeed * 2f : maxSpeed;
 
-        if (speed > maxSpeed)
+        if (speed > maxCurrentSpeed)
         {
             float brakeSpeed = speed - maxSpeed;  // calculate the speed decrease
 
             Vector3 normalisedVelocity = rb.velocity.normalized;
             Vector3 brakeVelocity = normalisedVelocity * brakeSpeed;  // make the brake Vector3 value
 
-            rb.AddForce(-brakeVelocity * 2f);  // apply opposing brake force
+            rb.AddForce(-brakeVelocity);  // apply opposing brake force
             return true;
         }
         else
@@ -135,8 +160,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void WallCheck()
     {
-        if (grounded)
+        if (grounded || !readyToWalled)
+        {
+            walled = false;
             return;
+        }
+
         Vector3 center = transform.TransformPoint(col.center);
         Vector3 size = transform.TransformVector(col.radius, col.height, col.radius);
         float radius = size.x;
@@ -146,7 +175,12 @@ public class PlayerMovement : MonoBehaviour
         Collider[] cols = Physics.OverlapCapsule(top, bottom, radius + skinWidth, whatIsWall);
         if (cols.Length > 0)
         {
-            walled = true;
+            if (wallId != cols[0].GetHashCode())
+            {
+                walled = true;
+                wallId = cols[0].GetHashCode();
+                return;
+            }
         }
         else
         {
@@ -156,33 +190,26 @@ public class PlayerMovement : MonoBehaviour
 
     private void WallGrab()
     {
-        oldWalled = false;
         if (walled)
         {
-            rb.useGravity = false;
-            if (walled != oldWalled)
-            {
-                oldWalled = true;
-                rb.velocity = Vector3.zero;
-            }
+            rb.velocity = Vector3.zero;
+            WallLeap();
         }
-
-        WallLeap();
     }
 
     private void WallLeap()
     {
-        if (y > 0f && walled && jumping)
+        if (jumping && readyToWalled)
         {
-            rb.AddForce(playerCam.forward * leapSpeed, ForceMode.Impulse);
-            rb.useGravity = true;
-            skinWidth = 0.0f;
-            Invoke("DelayWallCheck", 0.2f);
+            readyToWalled = false;
+            rb.AddForce(playerCam.forward * leapSpeed);
+            rb.AddForce(Vector3.up * leapSpeed * 0.25f);
+            Invoke(nameof(ResetWalled), wallCooldown);
         }
     }
 
-    private void DelayWallCheck()
+    private void ResetWallId()
     {
-        skinWidth = 0.1f;
+        wallId = -1;
     }
 }
