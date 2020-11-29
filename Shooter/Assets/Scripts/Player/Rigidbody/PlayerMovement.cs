@@ -84,6 +84,10 @@ public class PlayerMovement : MonoBehaviour
         {
             readyToJump = false;
             float multiplier = jumpSpeed + 2f * jumpCount / maxJumps;
+            if (rb.velocity.y < 0f)
+            {
+                rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+            }
             rb.AddForce(Vector3.up * multiplier);
             Invoke(nameof(ResetJump), jumpCooldown);
         }
@@ -111,15 +115,12 @@ public class PlayerMovement : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.fixedDeltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.fixedDeltaTime;
 
-        //Find current look rotation
         Vector3 rot = playerCam.transform.localRotation.eulerAngles;
         desiredX = rot.y + mouseX;
 
-        //Rotate, and also make sure we dont over- or under-rotate.
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        //Perform the rotations
         playerCam.transform.localRotation = Quaternion.Euler(xRotation, desiredX, 0);
         orientation.transform.localRotation = Quaternion.Euler(0, desiredX, 0);
     }
@@ -141,17 +142,17 @@ public class PlayerMovement : MonoBehaviour
 
     private bool SetMaxVelocity()
     {
-        float speed = Vector3.Magnitude(rb.velocity);  // test current object speed
+        float speed = Vector3.Magnitude(rb.velocity);
         float maxCurrentSpeed = sprinting ? maxSpeed * 2f : maxSpeed;
 
         if (speed > maxCurrentSpeed)
         {
-            float brakeSpeed = speed - maxSpeed;  // calculate the speed decrease
+            float brakeSpeed = speed - maxSpeed;
 
             Vector3 normalisedVelocity = rb.velocity.normalized;
-            Vector3 brakeVelocity = normalisedVelocity * brakeSpeed;  // make the brake Vector3 value
+            Vector3 brakeVelocity = normalisedVelocity * brakeSpeed;
 
-            rb.AddForce(-brakeVelocity);  // apply opposing brake force
+            rb.AddForce(-brakeVelocity);
             return true;
         }
         else
@@ -163,6 +164,7 @@ public class PlayerMovement : MonoBehaviour
         if (grounded || !readyToWalled)
         {
             walled = false;
+            jumpCount = maxJumps;
             return;
         }
 
@@ -204,6 +206,7 @@ public class PlayerMovement : MonoBehaviour
             readyToWalled = false;
             rb.AddForce(playerCam.forward * leapSpeed);
             rb.AddForce(Vector3.up * leapSpeed * 0.25f);
+
             Invoke(nameof(ResetWalled), wallCooldown);
         }
     }

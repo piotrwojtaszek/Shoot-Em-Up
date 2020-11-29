@@ -9,6 +9,6 @@ public class MoveCamera : MonoBehaviour
     private void Update()
     {
         if (player != null)
-            transform.position = player.transform.position;
+            transform.position = player.transform.position + new Vector3(0f,0.5f);
     }
 }
