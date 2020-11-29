@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
@@ -22,6 +20,7 @@ public class Shooting : MonoBehaviour
     private void Shoot()
     {
         RaycastHit hit;
+        Vector3 destinationPoint = playerCam.position + playerCam.forward * range;
 
         if (Physics.Raycast(playerCam.position, playerCam.forward, out hit, range))
         {
@@ -31,10 +30,10 @@ public class Shooting : MonoBehaviour
                  cubeEnemy.TakeDamage(damage);
              }*/
 
-            Vector3 hitPoint = hit.point - firePoint.position;
-            GameObject obj = Instantiate(bullet, firePoint.position, Quaternion.identity);
-            obj.GetComponent<BulletController>().Shoot(hitPoint, 1f, GetComponent<Rigidbody>().velocity);
+            destinationPoint = hit.point;
         }
+        GameObject obj = Instantiate(bullet, firePoint.position + firePoint.forward * .25f, Quaternion.identity);
+        obj.GetComponent<BulletController>().Shoot(destinationPoint, damage);
         foreach (ParticleSystem particle in muzzleFlash)
         {
             Instantiate(particle, firePoint);

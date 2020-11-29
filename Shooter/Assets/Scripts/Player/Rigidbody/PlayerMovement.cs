@@ -127,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckGround()
     {
-        Collider[] col = Physics.OverlapSphere(groundCheck.position, 0.2f, whatIsGround);
+        Collider[] col = Physics.OverlapSphere(groundCheck.position, 0.4f, whatIsGround);
         if (col.Length > 0)
         {
             grounded = true;
@@ -143,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
     private bool SetMaxVelocity()
     {
         float speed = Vector3.Magnitude(rb.velocity);
-        float maxCurrentSpeed = sprinting ? maxSpeed * 2f : maxSpeed;
+        float maxCurrentSpeed = sprinting ? maxSpeed * 1.5f : maxSpeed;
 
         if (speed > maxCurrentSpeed)
         {

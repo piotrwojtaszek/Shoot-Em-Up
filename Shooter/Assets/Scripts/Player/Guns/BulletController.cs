@@ -5,15 +5,16 @@ using UnityEngine;
 public class BulletController : MonoBehaviour
 {
     float m_damage = 1;
-    public GameObject bulletHole;
+    public ParticleSystem bulletHole;
     private void Start()
     {
-        Invoke("DestoryMe", 10f);
+        Invoke("DestoryMe", 1.25f);
     }
-    public void Shoot(Vector3 direction, float damage, Vector3 velocity)
+    public void Shoot(Vector3 hitPoint, float damage)
     {
 
         // the second argument, upwards, defaults to Vector3.up
+        Vector3 direction = hitPoint - transform.position;
         Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
         transform.rotation = rotation;
         GetComponent<Rigidbody>().AddForce(transform.forward * 20f);
@@ -27,7 +28,9 @@ public class BulletController : MonoBehaviour
         {
             collision.gameObject.GetComponent<CubeEnemy>().TakeDamage(m_damage);
         }
-        Instantiate(bulletHole, collision.contacts[0].point, Quaternion.identity);
+
+        Instantiate(bulletHole, collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal));
+
         Destroy(gameObject);
 
     }
