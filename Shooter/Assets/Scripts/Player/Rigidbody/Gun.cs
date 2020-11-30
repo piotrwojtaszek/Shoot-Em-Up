@@ -1,37 +1,22 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngineInternal;
+﻿using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
     public float damage = 10f;
     public float range = 100f;
-    public Camera fpsCam;
-    public ParticleSystem muzzleFlash;
+    public float speed = 1f;
+    public ParticleSystem[] muzzleFlash;
     public Transform firePoint;
-    // Update is called once per frame
-    void Update()
+    public GameObject bullet;
+    public Transform playerCam;
+
+    private void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            Shoot();
-        }
+        Shoot();
     }
 
-    private void Shoot()
+    public virtual void Shoot()
     {
-        Instantiate(muzzleFlash,firePoint);
-        RaycastHit hit;
-
-        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
-        {
-            CubeEnemy cubeEnemy = hit.transform.GetComponent<CubeEnemy>();
-            if(cubeEnemy!=null)
-            {
-                cubeEnemy.TakeDamage(damage);
-            }
-        }
+        //override this method
     }
 }
