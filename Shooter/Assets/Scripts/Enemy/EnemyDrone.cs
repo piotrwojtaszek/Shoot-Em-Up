@@ -6,6 +6,10 @@ public class EnemyDrone : EnemyController, IBaseStats
     [SerializeField]
     public float Health { get; set; }
 
+    public float MaxHealth => throw new System.NotImplementedException();
+
+    public float CurrentHealth { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
     public override void Init()
     {
         base.Init();

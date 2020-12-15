@@ -7,6 +7,10 @@ public class PlayerController : IBaseStats
 {
     public float Health { get; set; }
 
+    public float MaxHealth => throw new System.NotImplementedException();
+
+    public float CurrentHealth { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
     [SerializeField]
     private GameObject player;
 

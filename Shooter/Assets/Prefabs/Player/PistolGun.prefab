@@ -235,6 +235,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   range: 20
+  speed: 1
+  ammoOnReload: 10
+  ammoAll: 100
   muzzleFlash:
   - {fileID: 3641248897996288734, guid: 88db45534c3a893468c2a1e497fe3446, type: 3}
   - {fileID: 3626308223970760904, guid: 247f27c7ef9031a4cbf615316aa683b6, type: 3}

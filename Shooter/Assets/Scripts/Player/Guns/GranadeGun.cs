@@ -5,17 +5,23 @@ using UnityEngine;
 
 public class GranadeGun : Gun
 {
+    AudioSource audio;
+    private void Awake()
+    {
+        audio = GetComponent<AudioSource>();
+    }
     public float minForce = 10f;
     public float maxForce = 20f;
     float force = 10f;
     public override void Shoot()
     {
-
         if (Input.GetButtonDown("Fire1"))
             StartCoroutine(AccumulateForce());
 
 
     }
+
+
 
     IEnumerator AccumulateForce()
     {
@@ -25,13 +31,13 @@ public class GranadeGun : Gun
             force = Mathf.Clamp(force, minForce, maxForce);
             yield return null;
         }
-
+        audio.Play();
+        currentAmmo -= 1;
         RaycastHit hit;
         Vector3 destinationPoint = playerCam.position + playerCam.forward * range;
 
         if (Physics.Raycast(playerCam.position, playerCam.forward, out hit, range))
         {
-
             destinationPoint = hit.point;
         }
         GameObject obj = Instantiate(bullet, firePoint.position + firePoint.forward * .25f, Quaternion.identity);

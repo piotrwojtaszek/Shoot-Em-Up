@@ -17,7 +17,7 @@ public class GranadeBullet : BulletController
         Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
         transform.rotation = rotation;
         GetComponent<Rigidbody>().AddForce(transform.forward * speed);
-        GetComponent<Rigidbody>().AddForce(Vector3.up * speed / 2f);
+        GetComponent<Rigidbody>().AddForce(Vector3.up * speed / 4f);
         m_damage = damage;
     }
 
