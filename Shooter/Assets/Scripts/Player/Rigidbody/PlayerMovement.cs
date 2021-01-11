@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement instance;
     public Transform playerCam;
     public Transform orientation;
     public Transform groundCheck;
@@ -41,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
         rb = GetComponent<Rigidbody>();
         col = GetComponent<CapsuleCollider>();
     }

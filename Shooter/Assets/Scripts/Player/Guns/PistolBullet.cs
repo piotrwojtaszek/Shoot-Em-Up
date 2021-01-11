@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PistolBullet : BulletController
 {
+    public int damage = 1;
     protected Vector3 startPoint;
     protected float maxLiveDistance = 1f;
     private void Start()
@@ -29,9 +30,9 @@ public class PistolBullet : BulletController
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<CubeEnemy>())
+        if (collision.gameObject.GetComponent<EnemyHealthController>())
         {
-            collision.gameObject.GetComponent<CubeEnemy>().TakeDamage(m_damage);
+            collision.gameObject.GetComponent<EnemyHealthController>().DamageEnemy(damage);
         }
 
         foreach (ParticleSystem particle in bulletHole)
