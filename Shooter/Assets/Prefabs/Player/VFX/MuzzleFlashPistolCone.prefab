@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3641248897996288734}
   - component: {fileID: 3641248897996288733}
   - component: {fileID: 529336194347794416}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MuzzleFlashPistolCone
   m_TagString: Untagged
   m_Icon: {fileID: 0}

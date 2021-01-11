@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5379980208845595599}
   - component: {fileID: 5379980208845595596}
   - component: {fileID: 9185447254840651489}
-  m_Layer: 0
-  m_Name: PistolBulletHole
+  m_Layer: 11
+  m_Name: PistolBulletHit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4783248225069942194}
   - component: {fileID: 4783248225069942193}
   - component: {fileID: 8624751764631799964}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MuzzleFlashGranateForward
   m_TagString: Untagged
   m_Icon: {fileID: 0}
