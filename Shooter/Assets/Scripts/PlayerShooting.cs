@@ -25,13 +25,15 @@ public class PlayerShooting : MonoBehaviour
     {
         RaycastHit hit;
 
+
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 100f))
         {
-            if (hit.transform.gameObject.GetComponent<BaseStats>())
+            IBaseStats interfaceHit = hit.transform.GetComponent<IBaseStats>();
+            if (interfaceHit != null)
             {
-                hit.transform.gameObject.GetComponent<BaseStats>().TakeDamage(20f);
+                interfaceHit.TakeDamage(1);
+
             }
-            StartCoroutine(Line(hit, true));
         }
         else
         {
