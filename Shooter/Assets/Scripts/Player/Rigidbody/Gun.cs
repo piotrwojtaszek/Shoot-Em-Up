@@ -18,12 +18,12 @@ public class Gun : MonoBehaviour
 
         UIAmmo.instance.TextUpdate(currentAmmo, ammoAll);
 
-        if (currentAmmo > 0)
+        if (currentAmmo > 0 && Time.timeScale == 1)
         {
             Shoot();
 
         }
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && Time.timeScale == 1)
         {
             Reload();
         }

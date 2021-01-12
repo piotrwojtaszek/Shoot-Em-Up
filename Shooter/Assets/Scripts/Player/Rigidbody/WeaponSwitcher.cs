@@ -19,15 +19,22 @@ public class WeaponSwitcher : MonoBehaviour
             else
                 weapon.gameObject.SetActive(false);
             i++;
-
-
         }
+
     }
 
     // Update is called once per frame
     void Update()
     {
         int precoiusWeapon = selectedWeapon;
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            selectedWeapon = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            selectedWeapon = 1;
+        }
         if (Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
             if (selectedWeapon >= transform.childCount - 1)

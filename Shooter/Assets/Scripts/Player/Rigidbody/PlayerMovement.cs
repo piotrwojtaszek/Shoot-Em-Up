@@ -55,12 +55,30 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        Look();
-        MyInput();
-        Movement();
-        CheckGround();
-        WallCheck();
-        WallGrab();
+        if (Time.timeScale == 1)
+        {
+            Look();
+            MyInput();
+            Movement();
+            CheckGround();
+            WallCheck();
+            WallGrab();
+        }
+
+        CursorMode();
+    }
+    void CursorMode()
+    {
+        if (Time.timeScale == 0)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     private void Movement()
