@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayBtn : MonoBehaviour
 {
-    public void Play()
+    public void Play(int index)
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(index);
     }
 }
