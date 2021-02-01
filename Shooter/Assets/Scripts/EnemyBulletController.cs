@@ -45,7 +45,7 @@ public class EnemyBulletController : MonoBehaviour
         if (other.gameObject.tag == "Player" && damagePlayer)
 
         {
-            //PlayerHealthController.instance.DamagePlayer(damage);
+            PlayerHealthController.instance.DamagePlayer(damage);
             //Debug.Log("Hit Player at" + transform.position);
         }
 
