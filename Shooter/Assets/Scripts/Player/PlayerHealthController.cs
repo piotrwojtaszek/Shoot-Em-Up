@@ -27,7 +27,10 @@ public class PlayerHealthController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (transform.position.y<=-30)
+        {
+            PlayerDead();
+        }
     }
 
     public void DamagePlayer(int DamageAmount)

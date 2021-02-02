@@ -112,6 +112,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   speed: 5
+  viewRange: 10
 --- !u!54 &6110742828580390442
 Rigidbody:
   m_ObjectHideFlags: 0

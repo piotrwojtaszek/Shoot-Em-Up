@@ -42,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        Time.timeScale = 1f;
         instance = this;
         rb = GetComponent<Rigidbody>();
         col = GetComponent<CapsuleCollider>();

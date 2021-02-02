@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class PlayBtn : MonoBehaviour
 {
+    public GameObject mainMenu;
+    public GameObject credits;
 
     public void Awake()
     {
@@ -15,5 +17,27 @@ public class PlayBtn : MonoBehaviour
     public void Play(int index)
     {
         SceneManager.LoadScene(index);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
+    public void ResetStats()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
+    public void Credits()
+    {
+        mainMenu.SetActive(false);
+        credits.SetActive(true);
+    }
+
+    public void MainMenu()
+    {
+        mainMenu.SetActive(true);
+        credits.SetActive(false);
     }
 }

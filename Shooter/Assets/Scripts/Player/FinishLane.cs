@@ -11,6 +11,10 @@ public class FinishLane : MonoBehaviour
     TextMeshProUGUI czas;
     [SerializeField]
     FinishCanvas canvasFinish;
+    private void Start()
+    {
+        StartCoroutine(CheckEnemys());
+    }
     void Update()
     {
         levelTime += Time.deltaTime;
@@ -24,5 +28,19 @@ public class FinishLane : MonoBehaviour
         Time.timeScale = 0f;
 
     }
+    IEnumerator CheckEnemys()
+    {
+        while(true)
+        {
+            GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
+            if(enemys.Length==0)
+            {
+                break;
+            }
+            yield return new WaitForSeconds(1f);
+        }
 
+
+        GetComponent<SphereCollider>().enabled = true;
+    }
 }
