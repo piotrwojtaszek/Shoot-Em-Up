@@ -9,7 +9,8 @@ public class FinishLane : MonoBehaviour
     float levelTime = 0f;
     [SerializeField]
     TextMeshProUGUI czas;
-
+    [SerializeField]
+    FinishCanvas canvasFinish;
     void Update()
     {
         levelTime += Time.deltaTime;
@@ -19,7 +20,7 @@ public class FinishLane : MonoBehaviour
     {
 
         canvas.SetActive(true);
-        czas.text = levelTime.ToString("F2");
+        canvasFinish.currentTime = levelTime;
         Time.timeScale = 0f;
 
     }
